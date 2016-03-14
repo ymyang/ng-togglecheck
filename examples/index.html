@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+
+  <style>
+
+  </style>
+</head>
+<body ng-app="app">
+<div ng-controller="SingleCheckCtrl">
+  <p>单选</p>
+  <p ng-repeat="item in items">
+    <span ng-click="toggleCheck.toggleCheck(item)"><input type="checkbox" ng-checked="item.checked" /></span>{{item.gender}}
+  </p>
+  <p>
+    已选择：
+    <span ng-repeat="item in checked">{{item.gender}}</span>
+  </p>
+</div>
+<hr/>
+<div ng-controller="MultiCheckCtrl">
+  <p><span ng-click="toggleCheck.toggleCheckAll()"><input type="checkbox" ng-checked="toggleCheck.hasCheckAll()" /></span>全选</p>
+  <p ng-repeat="item in items">
+    <span ng-click="toggleCheck.multiCheck(item)"><input type="checkbox" ng-checked="item.checked" /></span>{{item.color}}
+  </p>
+  <p>
+    已选择：
+    <span ng-repeat="item in checked">{{item.color}},</span>
+  </p>
+</div>
+<script src="./angular.min.js"></script>
+<script src="../dist/ng-togglecheck.min.js"></script>
+<script>
+  angular.module('app', ['ng-togglecheck']).controller('SingleCheckCtrl', function($scope, ToggleCheck) {
+    $scope.items = [];
+
+    var male = {gender: 'male'};
+    var female = {gender: 'female'};
+    $scope.items.push(male, female);
+
+    $scope.checked = [];
+
+    $scope.toggleCheck = new ToggleCheck($scope.items, $scope.checked);
+
+    $scope.toggleCheck.checkItem(male);
+  }).controller('MultiCheckCtrl', function($scope, ToggleCheck) {
+    $scope.items = [];
+
+    var red = {color: 'red'};
+    var blue = {color: 'blue'};
+    var green = {color: 'green'};
+    var yellow = {color: 'yellow'};
+    var black = {color: 'black'};
+    var white = {color: 'white'};
+    $scope.items.push(red, blue, green, yellow, black, white);
+
+    $scope.checked = [];
+
+    $scope.toggleCheck = new ToggleCheck($scope.items, $scope.checked);
+
+    $scope.toggleCheck.checkItems([red, blue]);
+  });
+</script>
+</body>
+</html>
